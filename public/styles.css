@@ -1,0 +1,47 @@
+#map {
+    height: 550px;
+    width: 90%;
+    margin: 12px auto;
+}
+
+.search {
+    text-align: center;
+}
+
+.search input {
+    border: 0;
+    border-bottom: 1px solid #555;
+    background: transparent;
+    width: 25%;
+    padding: 8px 0 5px 0;
+    font-size: 16px;
+    color: black;
+}
+
+.search input:focus {
+    border: none;
+    outline: none;
+    border-bottom: 1px solid #3c8ce7;
+}
+
+button {
+    color: #fff;
+    background-color: #3c8ce7;
+    outline: none;
+    border: 0;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    margin-top: 30px;
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+}
+
+#dropdown-container{
+    text-align: center;
+    margin-top: 20px;
+}
+
+#dropdown{
+    height: 35px;
+}
