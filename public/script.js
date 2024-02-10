@@ -145,7 +145,6 @@ async function generateRoute() {
 
 async function loadData() {
     const dropdown = document.getElementById('dropdown');
-    dropdown.innerHTML = ''; // Clear existing options
     try {
         const response = await fetch('/addresses');
         if (!response.ok) {
