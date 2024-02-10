@@ -17,7 +17,6 @@ function initMap() {
     directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
 
     fetchAddressesFromDatabase();
-    loadData();
 }
 
 function initAutocomplete() {
@@ -91,10 +90,12 @@ async function geocodeAddress(address) {
                 });
 
 
+
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
     });
+
 }
 
 
@@ -142,21 +143,31 @@ async function generateRoute() {
     });
 }
 
-function loadData() {
-    document.getElementById('dropdown').innerHTML = ''
-    fetch('/addresses')
-        .then(response => response.json())
-        .then(data => {
-            const dropdown = document.getElementById('dropdown');
-            data.forEach(item => {
+async function loadData() {
+    const dropdown = document.getElementById('dropdown');
+    dropdown.innerHTML = ''; // Clear existing options
+    try {
+        const response = await fetch('/addresses');
+        if (!response.ok) {
+            throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        if (Array.isArray(data)) {
+            dropdown.innerHTML = '';
+            for (let i = 0; i < data.length; i++) {
+                // console.log(data.length,i)
                 const option = document.createElement('option');
-                option.value = item.id;
-                option.text = item.address;
+                option.value = data[i].id;
+                option.text = data[i].address;
                 dropdown.appendChild(option);
-            });
-        })
-        .catch(error => console.error('Error fetching data:', error));
+                console.log(dropdown.innerHTML)
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
 }
+
 
 
 const markAsVisitedBtn = document.getElementById('markAsVisitedBtn');
