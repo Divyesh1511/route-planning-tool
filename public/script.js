@@ -53,6 +53,8 @@ async function markLocation() {
 
 let addressLocations = [];
 
+
+
 async function geocodeAddress(address) {
     geocoder.geocode({ address: address }, function (results, status) {
         if (status === "OK") {
