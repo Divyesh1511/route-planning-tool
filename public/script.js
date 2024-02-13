@@ -132,6 +132,8 @@ async function generateRoute() {
         travelMode: google.maps.TravelMode.DRIVING
     };
 
+    console.log(request)
+
 
 
     directionsService.route(request, function (response, status) {
@@ -206,15 +208,12 @@ async function findShortestRoute(addresses) {
         return addresses;
     }
 
-    // Start with the first address
     const shortestRoute = [addresses.shift()];
 
-    // Iterate until all addresses are processed
     while (addresses.length > 0) {
         let shortestDistance = Infinity;
         let nearestAddress = null;
 
-        // Find the nearest address to the last address in the shortest route
         for (const address of addresses) {
             try {
                 const distance = await calculateDistance(shortestRoute[shortestRoute.length - 1], address);
@@ -228,36 +227,13 @@ async function findShortestRoute(addresses) {
             }
         }
 
-        // Add the nearest address to the shortest route
         shortestRoute.push(nearestAddress);
-        // Remove the added address from the remaining addresses
         addresses.splice(addresses.indexOf(nearestAddress), 1);
     }
 
     return shortestRoute;
 }
 
-
-// Function to generate permutations of an array
-function permute(array) {
-    const result = [];
-
-    const permuteHelper = (arr, current) => {
-        if (arr.length === 0) {
-            result.push(current);
-            return;
-        }
-
-        for (let i = 0; i < arr.length; i++) {
-            const remaining = arr.slice(0, i).concat(arr.slice(i + 1));
-            permuteHelper(remaining, current.concat([arr[i]]));
-        }
-    };
-
-    permuteHelper(array, []);
-
-    return result;
-}
 
 async function calculateDistance(location1, location2) {
     try {
