@@ -15,7 +15,7 @@ function initMap() {
     geocoder = new google.maps.Geocoder();
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer({ map: map });
-
+    loadData();
     fetchAddressesFromDatabase();
 }
 
@@ -47,25 +47,9 @@ async function fetchAddressesFromDatabase() {
 
 async function markLocation() {
     const address = document.getElementById("addressInput").value;
-    geocodeAddress(address);
-}
-
-let addressLocations = [];
-
-
-
-async function geocodeAddress(address) {
-    geocoder.geocode({ address: address }, function (results, status) {
-        if (status === "OK") {
+    geocoder.geocode({address: address}, function(results, status){
+        if(status == "OK"){
             const location = results[0].geometry.location;
-            const marker = new google.maps.Marker({
-                position: location,
-                map: map,
-                title: address
-            });
-            map.setCenter(location);
-
-            addressLocations.push({ address: address, location: location });
             fetch('/addresses', {
                 method: 'POST',
                 headers: {
@@ -88,8 +72,29 @@ async function geocodeAddress(address) {
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    })
+    geocodeAddress(address);
+}
+
+let addressLocations = [];
 
 
+
+async function geocodeAddress(address) {
+    geocoder.geocode({ address: address }, function (results, status) {
+        if (status === "OK") {
+            const location = results[0].geometry.location;
+            const marker = new google.maps.Marker({
+                position: location,
+                map: map,
+                title: address
+            });
+            map.setCenter(location);
+
+            addressLocations.push({ address: address, location: location });
 
         } else {
             alert("Geocode was not successful for the following reason: " + status);
@@ -161,7 +166,6 @@ async function loadData() {
                 option.value = data[i].id;
                 option.text = data[i].address;
                 dropdown.appendChild(option);
-                console.log(dropdown.innerHTML)
             }
         }
     } catch (error) {
