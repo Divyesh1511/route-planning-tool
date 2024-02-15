@@ -79,7 +79,6 @@ app.delete('/markAsVisited/:id', (req, res) => {
             console.error(err.message);
             res.status(500).send('Internal Server Error');
         } else {
-            console.log("All data removed from the addresses table");
             res.sendStatus(200); // Send a success response
         }
     });

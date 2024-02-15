@@ -24,6 +24,10 @@ function initAutocomplete() {
         document.getElementById('addressInput'),
         { types: ['geocode'] }
     );
+    autocomplete = new google.maps.places.Autocomplete(
+        document.getElementById('TechnicianAddress'),
+        { types: ['geocode'] }
+    );
 }
 
 async function fetchAddressesFromDatabase() {
@@ -46,7 +50,9 @@ async function fetchAddressesFromDatabase() {
 }
 
 async function markLocation() {
-    const address = document.getElementById("addressInput").value;
+    const address = document.getElementById("addressInput").value || document.getElementById("TechnicianAddress").value;
+    document.getElementById("addressInput").value = '';
+    document.getElementById("TechnicianAddress").value = '';
     geocoder.geocode({address: address}, function(results, status){
         if(status == "OK"){
             const location = results[0].geometry.location;
@@ -212,6 +218,7 @@ async function findShortestRoute(addresses) {
         return addresses;
     }
 
+    addresses.unshift(addresses.pop());
     const shortestRoute = [addresses.shift()];
 
     while (addresses.length > 0) {
