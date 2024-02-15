@@ -40,7 +40,7 @@ async function fetchAddressesFromDatabase() {
         if (data && Array.isArray(data)) {
             for(let i = 0; i < data.length; i++){
                 if(i == data.length-1){
-                    document.getElementById("adminLocation").innerHTML = `<span>Admin current location is : </span>${data[i].address}`;
+                    document.getElementById("adminLocation").innerHTML = `<span>Technician current location is : </span>${data[i].address}`;
                 }
                 const address = data[i].address;
                 geocodeAddress(address);
@@ -54,7 +54,7 @@ async function fetchAddressesFromDatabase() {
 async function markLocation() {
     const address = document.getElementById("addressInput").value || document.getElementById("TechnicianAddress").value;
     if(address){
-        document.getElementById("adminLocation").innerHTML = `<span>Admin current location is : </span>${address}`;
+        document.getElementById("adminLocation").innerHTML = `<span>Technician current location is : </span>${address}`;
     }
     document.getElementById("addressInput").value = '';
     document.getElementById("TechnicianAddress").value = '';
