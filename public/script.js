@@ -38,11 +38,13 @@ async function fetchAddressesFromDatabase() {
         }
         const data = await response.json();
         if (data && Array.isArray(data)) {
-            // Iterate through addresses and mark them on the map
-            data.forEach(addressData => {
-                const address = addressData.address;
+            for(let i = 0; i < data.length; i++){
+                if(i == data.length-1){
+                    document.getElementById("adminLocation").innerHTML = `<span>Admin current location is : </span>${data[i].address}`;
+                }
+                const address = data[i].address;
                 geocodeAddress(address);
-            });
+            }
         }
     } catch (error) {
         console.error('Error fetching addresses:', error);
@@ -51,6 +53,9 @@ async function fetchAddressesFromDatabase() {
 
 async function markLocation() {
     const address = document.getElementById("addressInput").value || document.getElementById("TechnicianAddress").value;
+    if(address){
+        document.getElementById("adminLocation").innerHTML = `<span>Admin current location is : </span>${address}`;
+    }
     document.getElementById("addressInput").value = '';
     document.getElementById("TechnicianAddress").value = '';
     geocoder.geocode({address: address}, function(results, status){
